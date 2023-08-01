@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nwayooknowledge/Pages/postPage.dart';
+import 'package:nwayooknowledge/app_screen.dart';
 import 'package:nwayooknowledge/theme/dark_theme.dart';
 import 'Pages/ProfilePage.dart';
 import 'theme/light_theme.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   int currentIndex = 0;
-  final screens = [MyPostPage(),  MyProfile()];
+  final screens = [MyPostPage(),AppScreen(),  MyProfile()];
 
   bool _switch = false;
   ThemeData _dark = darkTheme;
@@ -67,6 +68,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
+                label: 'Ads',
+              ),BottomNavigationBarItem(
+                icon: Icon(Icons.ads_click),
                 label: 'Home',
               ),
              

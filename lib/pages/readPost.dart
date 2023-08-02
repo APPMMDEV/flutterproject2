@@ -33,6 +33,7 @@ class _viewPostState extends State<viewPost> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        elevation: 0,
         actions: [
           Container(
             margin: EdgeInsets.only(right: 20),
@@ -84,8 +85,8 @@ class _viewPostState extends State<viewPost> {
                     // color: Colors.blue,
                     decoration: BoxDecoration(
                       border: Border.all(width: 0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: Colors.blueGrey,
                     ),
                     child: Text(
                       'Author : : ${widget.postDatabase.author}',
@@ -97,8 +98,8 @@ class _viewPostState extends State<viewPost> {
                     // color: Colors.blue,
                     decoration: BoxDecoration(
                       border: Border.all(width: 0),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      color: Colors.blueGrey,
                     ),
                     child: Text(
                       'Source : : ${widget.postDatabase.source}',

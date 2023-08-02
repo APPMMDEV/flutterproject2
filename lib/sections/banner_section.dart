@@ -18,6 +18,7 @@ class _BannerSectionState extends State<BannerSection>
   void initState() {
     super.initState();
     IronSource.setBannerListener(this);
+
   }
 
   @override
@@ -38,7 +39,8 @@ class _BannerSectionState extends State<BannerSection>
                 verticalOffset: -50,
                 placementName: 'DefaultBanner');
           }
-        }),
+        }
+        ),
         ButtonInfo(
             "Destroy Banner",
             _isBannerLoaded

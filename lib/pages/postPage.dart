@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nwayooknowledge/Database/pointDAO.dart';
 import 'package:nwayooknowledge/Modal/postmodal.dart';
 
 import '../Api/Api.dart';
 import '../Helper/Components.dart';
 
 class MyPostPage extends StatefulWidget {
-  const MyPostPage({super.key});
+
+  final PointDAO pointDAO;
+  const MyPostPage({super.key,required this.pointDAO});
 
   @override
   State<MyPostPage> createState() => _MyPostPageState();
@@ -30,7 +33,7 @@ class _MyPostPageState extends State<MyPostPage> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return Components.getPostCardContainer(
-                        context, snapshot.data![index]);
+                        context, snapshot.data![index],widget.pointDAO);
 
                         
                   }),

@@ -5,7 +5,7 @@ import '../Helper/ConstsData.dart';
 ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     appBarTheme:
-        const AppBarTheme(backgroundColor: Colors.black),
+        const AppBarTheme(backgroundColor: Colors.black54),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.transparent,
       selectedItemColor: Colors.yellow,
@@ -15,7 +15,7 @@ ThemeData darkTheme = ThemeData(
     ),
     colorScheme: ColorScheme.dark(
         background: Colors.transparent,
-        onBackground: Colors.black,
+        onBackground: Colors.black87,
         primary: Colors.transparent,
         onPrimary: Colors.white,
         secondary: Colors.white,

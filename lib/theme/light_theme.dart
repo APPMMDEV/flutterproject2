@@ -7,7 +7,7 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: Colors.white,
       selectedItemColor: Colors.red,
       unselectedItemColor: Colors.grey,
-      
+
       elevation: 20.0,
       type: BottomNavigationBarType.fixed,
     ),

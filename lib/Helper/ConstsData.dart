@@ -22,7 +22,7 @@ class ConstsData {
     return ptss.toString();
   }
 
-  static const app_name = 'MCoder Blog';
+  static const app_name = 'Nway Oo Knowledge';
   static const myprimarycolor = Color(0xFFF17006);
   static const mysecondarycolor = Color.fromARGB(255, 30, 51, 90);
   static const mycardcolor = Color.fromARGB(255, 4, 79, 122);

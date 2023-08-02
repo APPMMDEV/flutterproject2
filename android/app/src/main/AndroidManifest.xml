@@ -7,7 +7,7 @@
 
     <application
         tools:replace="android:label"
-        android:label="MCoder Blog"
+        android:label="Nway Oo Knowledge"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

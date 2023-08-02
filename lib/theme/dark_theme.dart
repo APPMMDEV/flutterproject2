@@ -13,7 +13,7 @@ ThemeData darkTheme = ThemeData(
       elevation: 20.0,
       type: BottomNavigationBarType.fixed,
     ),
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
         background: Colors.transparent,
         onBackground: Colors.black87,
         primary: Colors.transparent,

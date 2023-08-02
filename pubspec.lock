@@ -234,7 +234,7 @@ packages:
     source: hosted
     version: "1.4.2"
   floor_generator:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: floor_generator
       sha256: "40aaf1b619adc03367ce4b7c79161e3198d43b572b5ec9cc99a4a89de27b08d2"

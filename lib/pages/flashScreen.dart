@@ -30,6 +30,9 @@ class _FlashScreenState extends State<FlashScreen> {
   ThemeData _dark = darkTheme;
   ThemeData _light = lightTheme;
 
+  var darkicon = Icons.dark_mode;
+  var lighticon = Icons.light_mode;
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +49,18 @@ class _FlashScreenState extends State<FlashScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+
+
+                    const Icon(Icons.light_mode_rounded),
                     Switch(
                         value: _switch,
                         onChanged: (_newvalue) {
                           setState(() {
                             _switch = _newvalue;
+
                           });
                         }),
-                    const Text('Dark Mode')
+                    const Icon(Icons.dark_mode_rounded)
                   ],
                 ),
               )
@@ -63,8 +70,6 @@ class _FlashScreenState extends State<FlashScreen> {
 
           bottomNavigationBar: BottomNavigationBar(
             elevation: 0,
-            backgroundColor:
-            Theme.of(context).bottomNavigationBarTheme.backgroundColor,
             currentIndex: currentIndex,
             type: BottomNavigationBarType.fixed,
             onTap: (index) => setState(() => currentIndex = index),

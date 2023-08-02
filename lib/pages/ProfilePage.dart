@@ -4,6 +4,8 @@ import 'package:nwayooknowledge/Database/pointDAO.dart';
 import 'package:nwayooknowledge/Database/pointDatabase.dart';
 import 'package:nwayooknowledge/Helper/Components.dart';
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
+import 'package:nwayooknowledge/Helper/ConvertPref.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Database/pointTable.dart';
 
@@ -17,6 +19,18 @@ class MyProfile extends StatefulWidget {
 
 class _MyProfileState extends State<MyProfile> {
   var pts = '0 pts';
+
+  List<PointData>? ptls = [] ;
+
+
+
+
+  @override
+  void initState() {
+
+   getPts();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +53,7 @@ class _MyProfileState extends State<MyProfile> {
                   ),
                 ),
               ),
-              const Text('Nway Oo Knowledge',
+              const Text(ConstsData.app_name,
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.blueGrey,
@@ -48,118 +62,122 @@ class _MyProfileState extends State<MyProfile> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   padding: EdgeInsets.all(20),
-                  height: 150,
+                  height: 110,
                   child: Card(
-                    color: Theme.of(context).colorScheme.onBackground,
                     elevation: 5,
                     // color: Colors.blueGrey,
 
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
 
-                    shadowColor: Theme.of(context).colorScheme.secondary,
-                    child: Container(
-                        margin: EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'My Points',
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary,
+                      borderRadius: BorderRadius.circular(5)),
+
+                  child: Container(
+                      margin: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Center(
+                                child: Text(
+                                  'My Points',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${pts} points',
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary,
+                              Center(
+                                child: Text(
+                                  '${pts} points',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
-                        )),
-                  ),
+                            ],
+                          ),
+
+
+                        ],
+                      )),
                 ),
               ),
-              StreamBuilder<List<PointData>>(
-                stream: widget.pointDAO.getAllPoints(),
-                builder: (_, snapshot) {
-                  if (snapshot.hasData) {
+            ),
+            Container(
 
-                    // return
-                    return Column(
-                      children: [
+                height: 500,
+                child: PointList())
+          ],
+        ),
+      )),
 
-                        Text(snapshot.data![4].id.toString()
-                        ),
-                        // Container(
-                        //   color: Colors.redAccent,
-                        //
-                        //   child: ListView.builder(
-                        //       itemCount: snapshot.data!.length,
-                        //       itemBuilder: (context,index){
-                        //
-                        //         return Components.getPtsData(context, snapshot.data![index]);
-                        //
-                        //   })
-                        //   // child: Column(
-                        //   //
-                        //   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   //
-                        //   //   children: [
-                        //   //
-                        //   //     Text(snapshot.data!.length.toString()),
-                        //   //     Text(snapshot.data![3].id.toString()),
-                        //   //     ListView.builder(
-                        //   //         itemCount: snapshot.data!.length,
-                        //   //         itemBuilder: (context, index) {
-                        //   //           return ListTile(
-                        //   //             title: Text(snapshot.data![3].timeStamp
-                        //   //                 .toString()),
-                        //   //           );
-                        //   //
-                        //   //           // return Text('${snapshot.data![index].toString()} time');
-                        //   //         }),
-                        //   //   ],
-                        //   // ),
-                        // ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error Getting Data'));
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.redAccent,
-                      ),
-                    );
-                  }
-                },
-              )
-            ],
-          ),
-        )
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () async {
-            //
-            var timeStamp = DateTime.now().millisecondsSinceEpoch;
-            setState(() {
-              Fluttertoast.showToast(
-                msg: "${timeStamp}",
-              );
-            });
-
-            widget.pointDAO.addPoint(new PointData(2, timeStamp));
-          }),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //
+      //     showDialog(context: context, builder: (context){
+      //
+      //       return   AlertDialog(
+      //
+      //         title: Text('Are you sure?'),
+      //         content: Text('Delete Data'),
+      //         actions: [
+      //           ElevatedButton(onPressed: (){
+      //
+      //             if(ptls!=null){
+      //
+      //
+      //
+      //               setState(() {
+      //                 widget.pointDAO.DeleteAll(ptls!);
+      //
+      //               });
+      //             }else {
+      //
+      //                showDialog(context: context, builder: (context){
+      //
+      //                 return AlertDialog(
+      //
+      //                    title: Text('Data Null'),
+      //                    content: Text('Delete Data Null'),
+      //                    actions: [
+      //                      ElevatedButton(onPressed: (){
+      //
+      //
+      //
+      //
+      //
+      //                      }, child:
+      //                      Text('OK'))
+      //                    ],
+      //
+      //                  );
+      //                });
+      //
+      //             }
+      //
+      //           }, child:
+      //           Text('OK'))
+      //         ],
+      //
+      //       );
+      //     });
+      //
+      //
+      //   },
+      // ),
     );
+  }
+
+  void getPts() async{
+
+    var pointpref = await SharedPreferences.getInstance();
+      int i = pointpref.getInt('key') ?? 0;
+
+      setState(() {
+        pts = i.toString();
+      });
   }
 
   Widget PointList() {
@@ -167,17 +185,36 @@ class _MyProfileState extends State<MyProfile> {
       stream: widget.pointDAO.getAllPoints(),
       builder: (_, snapshot) {
         if (snapshot.hasData) {
-          Fluttertoast.showToast(
-            msg: "${snapshot.data!.length.toString()}",
-          );
+
+          ptls = snapshot.data;
+
+
           // return
-          return Container(
-            color: Colors.redAccent,
+          return Expanded(
             child: ListView.builder(
+
+
+
+              // reverse:  true,
+
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(snapshot.data![index].timeStamp.toString()),
+
+                  var rev = snapshot.data!.length -1 - index;
+                  return Card(
+                    elevation: 3,
+                    margin: EdgeInsets.all(20),
+
+
+                    shape: RoundedRectangleBorder(
+
+                        borderRadius: BorderRadius.circular(30)),
+                    child: ListTile(
+
+                      title: Text(Convert_Pref.readTimestamp(snapshot.data![rev].timeStamp as int)),
+                      trailing: Text(snapshot.data![rev].point.toString()),
+                      leading:Text(snapshot.data![rev].id.toString()),
+                    ),
                   );
 
                   // return Text('${snapshot.data![index].toString()} time');

@@ -1,80 +1,13 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:ironsource_mediation/ironsource_mediation.dart';
-import 'package:nwayooknowledge/Database/pointDAO.dart';
-import 'package:nwayooknowledge/Helper/BannerAdsHelper.dart';
-import 'package:nwayooknowledge/Modal/postmodal.dart';
 
-import '../Api/Api.dart';
-import '../Helper/Components.dart';
 const _APP_USER_ID = 'some-unique-app-user-id-123';
-class MyPostPage extends StatefulWidget {
+class BannerAdsHelper with IronSourceBannerListener ,IronSourceImpressionDataListener, IronSourceInitializationListener {
 
-  final PointDAO pointDAO;
-  const MyPostPage({super.key,required this.pointDAO});
-
-  @override
-  State<MyPostPage> createState() => _MyPostPageState();
-}
-
-class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener ,IronSourceImpressionDataListener, IronSourceInitializationListener {
-  List<MyPostModal> myPost = [];
-
-  late MyPostModal postDatabase;
-
-  @override
-  void initState() {
-
-
-    // WidgetsBinding.instance.addPostFrameCallback((_)
-    // {
-    //   initIronSource().then((value){
-    //     IronSource.setBannerListener(this);
-    //     bannerLoad();
-    //   }
-    //   );
-    // });
-    super.initState();
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).colorScheme.primary,
-      child: FutureBuilder(
-        future: Api.getMyPost(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-
-            return Container(
-              child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return Components.getPostCardContainer(
-                        context, snapshot.data![index],widget.pointDAO);
-
-                        
-                  }),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget myimg(MyPostModal postDatabase) {
-    return Image.network(postDatabase.image);
-  }
-  void bannerLoad() async{
+   void bannerLoad() async{
 
     final isCapped =
     await IronSource.isBannerPlacementCapped('DefaultBanner');
@@ -89,7 +22,7 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
           placementName: 'DefaultBanner');
     }
   }
-  Future<void> checkATT() async {
+    Future<void> checkATT() async {
     final currentStatus =
     await ATTrackingManager.getTrackingAuthorizationStatus();
     print('ATTStatus: $currentStatus');
@@ -103,14 +36,14 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
 
 
 
-  Future<void> enableDebug() async {
+   Future<void> enableDebug() async {
     await IronSource.setAdaptersDebug(true);
     // this function doesn't have to be awaited
     IronSource.validateIntegration();
   }
 
 // Sample Segment Params
-  Future<void> setSegment() {
+   Future<void> setSegment() {
     final segment = IronSourceSegment();
     segment.age = 20;
     segment.gender = IronSourceUserGender.Female;
@@ -122,7 +55,7 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
     return IronSource.setSegment(segment);
   }
 
-  Future<void> setRegulationParams() async {
+   Future<void> setRegulationParams() async {
     // GDPR
     await IronSource.setConsent(true);
     await IronSource.setMetaData({
@@ -138,7 +71,7 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
 
 
 
-  Future<void> initIronSource() async {
+   Future<void> initIronSource() async {
     final appKey = Platform.isAndroid
         ? "85460dcd"
         : Platform.isIOS
@@ -186,6 +119,7 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
       print(e);
     }
   }
+
   @override
   void onBannerAdClicked() {
     // TODO: implement onBannerAdClicked
@@ -225,4 +159,6 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
   void onInitializationComplete() {
     // TODO: implement onInitializationComplete
   }
+
+
 }

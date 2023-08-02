@@ -39,22 +39,20 @@ class Components{
             height: 170,
             child: Card(
               margin: EdgeInsets.symmetric(horizontal: 10),
-              color: Theme.of(context).colorScheme.onBackground,
+              // color: Theme.of(context).colorScheme.onBackground,
               elevation: 5,
-              shadowColor: Theme.of(context).colorScheme.secondary,
+              // shadowColor: Theme.of(context).colorScheme.secondary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Container(
                 child: InkWell(
                   onTap: () async {
 
-
-
                     var timeStamp = DateTime.now().millisecondsSinceEpoch;
 
 
 
-                    await pointDAO.addPoint(new PointData(1, 1));
+                    await pointDAO.addPoint(new PointData(1, timeStamp));
                     var pointpref = await SharedPreferences.getInstance();
                     int i = pointpref.getInt('key') ?? 0;
                     pointpref.setInt('key', i + 1);

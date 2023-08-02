@@ -12,4 +12,13 @@ abstract class PointDAO{
   @insert
   Future<void> addPoint (PointData pointData);
 
+  @delete
+  Future<void> deletePoint (PointData pointData);
+
+  @update
+  Future<void> updatePoint (PointData pointData);
+
+@update
+  Future<void> DeleteAll (List<PointData> pointList);
+
 }

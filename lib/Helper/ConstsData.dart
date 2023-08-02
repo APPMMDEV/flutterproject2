@@ -7,7 +7,8 @@ class ConstsData {
       'https://mctvteam.github.io/Coder/Data/V10/testPostNew.json';
   static var LyricApi = 'https://appmmdev.github.io/MMLyric/Data/lyrics.json';
   static var TestPost = 'https://appmmdev.github.io/MMLyric/Data/test.json';
-  static var temporaryimg = 'https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png';
+  static var temporaryimg =
+      'https://www.wikipedia.org/portal/wikipedia.org/assets/img/Wikipedia-logo-v2.png';
 
   static var MusicApi =
       'https://jackrevo95.github.io/jackrevo/NOR6/Music/music.json';
@@ -21,6 +22,7 @@ class ConstsData {
     return ptss.toString();
   }
 
+  static const app_name = 'MCoder Blog';
   static const myprimarycolor = Color(0xFFF17006);
   static const mysecondarycolor = Color.fromARGB(255, 30, 51, 90);
   static const mycardcolor = Color.fromARGB(255, 4, 79, 122);

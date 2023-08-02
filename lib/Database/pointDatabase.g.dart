@@ -112,6 +112,26 @@ class _$PointDAO extends PointDAO {
                   'point': item.point,
                   'timeStamp': item.timeStamp
                 },
+            changeListener),
+        _pointDataUpdateAdapter = UpdateAdapter(
+            database,
+            'points',
+            ['id'],
+            (PointData item) => <String, Object?>{
+                  'id': item.id,
+                  'point': item.point,
+                  'timeStamp': item.timeStamp
+                },
+            changeListener),
+        _pointDataDeletionAdapter = DeletionAdapter(
+            database,
+            'points',
+            ['id'],
+            (PointData item) => <String, Object?>{
+                  'id': item.id,
+                  'point': item.point,
+                  'timeStamp': item.timeStamp
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -121,6 +141,10 @@ class _$PointDAO extends PointDAO {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<PointData> _pointDataInsertionAdapter;
+
+  final UpdateAdapter<PointData> _pointDataUpdateAdapter;
+
+  final DeletionAdapter<PointData> _pointDataDeletionAdapter;
 
   @override
   Stream<List<PointData>> getAllPoints() {
@@ -136,5 +160,21 @@ class _$PointDAO extends PointDAO {
   Future<void> addPoint(PointData pointData) async {
     await _pointDataInsertionAdapter.insert(
         pointData, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updatePoint(PointData pointData) async {
+    await _pointDataUpdateAdapter.update(pointData, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> DeleteAll(List<PointData> pointList) async {
+    await _pointDataUpdateAdapter.updateList(
+        pointList, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deletePoint(PointData pointData) async {
+    await _pointDataDeletionAdapter.delete(pointData);
   }
 }

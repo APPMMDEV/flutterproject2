@@ -40,27 +40,30 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
 
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
 
-        body: FutureBuilder<PointDatabase>(
-          future: $FloorPointDatabase.databaseBuilder('point.db').build(),
-          builder: (context,snapshot){
+        body: SafeArea(
+          child: FutureBuilder<PointDatabase>(
+            future: $FloorPointDatabase.databaseBuilder('point.db').build(),
+            builder: (context,snapshot){
 
-            if(snapshot.hasData){
+              if(snapshot.hasData){
 
-              return FlashScreen(pointDAO: snapshot.data!.pointDao);
+                return FlashScreen(pointDAO: snapshot.data!.pointDao);
 
-              // return Text('Data has');
-              
-            }else if(snapshot.hasError){
+                // return Text('Data has');
+                
+              }else if(snapshot.hasError){
 
-              return Text('Error');
+                return Text('Error');
 
-            }else{
+              }else{
 
-              return CircularProgressIndicator();
-            }
-          },
+                return CircularProgressIndicator();
+              }
+            },
+          ),
         ),
       ),
 

@@ -7,6 +7,9 @@ class PointData {
 
   @ColumnInfo(name : 'point')
   int? point;
+
+
+  @ColumnInfo(name : 'timeStamp')
   int? timeStamp;
   PointData(  this.point, this.timeStamp,{this.id});
 }

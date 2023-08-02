@@ -12,7 +12,7 @@ class viewPost extends StatefulWidget {
 }
 
 class _viewPostState extends State<viewPost> {
-  bool _mmlanguage = false;
+  bool _mmlanguage = true;
 
   String mtitle = '';
   String engtitle = '';
@@ -22,10 +22,30 @@ class _viewPostState extends State<viewPost> {
 
   @override
   void initState() {
-    ptitle = widget.postDatabase.engtitle;
-    content = widget.postDatabase.engcontent;
+
+
+    checklanguage();
 
     super.initState();
+  }
+
+  void checklanguage(){
+
+      if (_mmlanguage) {
+
+        ptitle = widget.postDatabase.mmtitle;
+        content = widget.postDatabase.mmcontent;
+      } else {
+        ptitle = widget.postDatabase.engtitle;
+        content = widget.postDatabase.engcontent;
+      }
+
+      setState(() {
+
+      });
+
+
+
   }
 
   @override
@@ -47,15 +67,10 @@ class _viewPostState extends State<viewPost> {
                     value: _mmlanguage,
                     onChanged: (_newvalue) {
                       setState(() {
-                        if (_mmlanguage) {
-                          ptitle = widget.postDatabase.engtitle;
-                          content = widget.postDatabase.engcontent;
-                        } else {
-                          ptitle = widget.postDatabase.mmtitle;
-                          content = widget.postDatabase.mmcontent;
-                        }
 
                         _mmlanguage = _newvalue;
+
+                        checklanguage();
                       });
                     }),
                 const Text(
@@ -74,62 +89,90 @@ class _viewPostState extends State<viewPost> {
         child: Column(
           children: [
 
-            SizedBox(height: 10,),
-             Container(
-              margin: EdgeInsets.all(5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    // color: Colors.blue,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 0),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: Colors.blueGrey,
+                SizedBox(height: 10,),
+          
+             Row(
+               children: [
+
+                 Expanded(
+                   
+                   child: Container(
+                     alignment: Alignment.topLeft,
+                     margin: EdgeInsets.only(left: 10),
+                     child: Text(
+                       Convert_Pref.readTimestamp(
+                           int.parse(widget.postDatabase.timeStamp)),
+                       textAlign: TextAlign.justify,
+                       style: TextStyle(
+                         color: Theme.of(context).colorScheme.onPrimary,
+                       ),
+                     ),
+                   ),
+                 ),
+                 Expanded(
+                   child: Container(
+                    margin: EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          // color: Colors.blue,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 0),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.blueGrey,
+                          ),
+                          child: Text(
+                            'Author : : ${widget.postDatabase.author}',
+                            style: const TextStyle(fontSize: 10, color: Colors.white),
+                          ),
+                        ),
+
+                        SizedBox(height: 10,),
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          // color: Colors.blue,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 0),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.blueGrey,
+                          ),
+                          child: Text(
+                            'Source : : ${widget.postDatabase.source}',
+                            style: const TextStyle(fontSize: 10, color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      'Author : : ${widget.postDatabase.author}',
-                      style: const TextStyle(fontSize: 10, color: Colors.white),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    // color: Colors.blue,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 0),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: Colors.blueGrey,
-                    ),
-                    child: Text(
-                      'Source : : ${widget.postDatabase.source}',
-                      style: const TextStyle(fontSize: 10, color: Colors.white),
-                    ),
-                  ),
-                ],
-              ),
             ),
+                 ),
+               ],
+             ),
 
             SizedBox(height: 10,),
             Center(
                 child: Image.network(
               widget.postDatabase.image,
-              height: 200,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes !=
+                            null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
             )),
             const SizedBox(
               height: 5,
             ),
-            Container(
-              alignment: Alignment.topRight,
-              child: Text(
-                Convert_Pref.readTimestamp(
-                    int.parse(widget.postDatabase.timeStamp)),
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-              ),
-            ),
+
            
             SizedBox(height: 20),
 

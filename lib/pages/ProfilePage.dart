@@ -45,10 +45,13 @@ class _MyProfileState extends State<MyProfile> {
                   child: CircleAvatar(
                     backgroundColor: Colors.blueGrey,
                     radius: 85,
+
                     child: CircleAvatar(
                       radius: 79,
                       backgroundImage: NetworkImage(
                           'https://static.vecteezy.com/system/resources/previews/007/610/209/original/flying-phoenix-fire-bird-abstract-logo-design-template-vector.jpg'),
+
+
                     ),
                   ),
                 ),
@@ -69,39 +72,35 @@ class _MyProfileState extends State<MyProfile> {
 
                   shape: RoundedRectangleBorder(
 
-                      borderRadius: BorderRadius.circular(5)),
+                      borderRadius: BorderRadius.circular(30)),
 
-                  child: Container(
-                      margin: EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Center(
-                                child: Text(
-                                  'My Points',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onPrimary,
-                                  ),
+                  child: Center(
+                    child: Container(
+                        margin: EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Center(
+                              child: Text(
+                                'My Points',
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onPrimary,
                                 ),
                               ),
-                              Center(
-                                child: Text(
-                                  '${pts} points',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.onPrimary,
-                                  ),
+                            ),
+                            Center(
+                              child: Text(
+                                '${pts} points',
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onPrimary,
                                 ),
                               ),
-                            ],
-                          ),
-
-
-                        ],
-                      )),
+                            ),
+                          ],
+                        )),
+                  ),
                 ),
               ),
             ),
@@ -203,17 +202,17 @@ class _MyProfileState extends State<MyProfile> {
                   var rev = snapshot.data!.length -1 - index;
                   return Card(
                     elevation: 3,
-                    margin: EdgeInsets.all(20),
+                    margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
 
 
                     shape: RoundedRectangleBorder(
 
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(10)),
                     child: ListTile(
 
                       title: Text(Convert_Pref.readTimestamp(snapshot.data![rev].timeStamp as int)),
                       trailing: Text(snapshot.data![rev].point.toString()),
-                      leading:Text(snapshot.data![rev].id.toString()),
+
                     ),
                   );
 

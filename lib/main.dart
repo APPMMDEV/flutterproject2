@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
 
-        body: SafeArea(
+        body: Center(
           child: FutureBuilder<PointDatabase>(
             future: $FloorPointDatabase.databaseBuilder('point.db').build(),
             builder: (context,snapshot){
@@ -53,14 +53,25 @@ class _MyAppState extends State<MyApp> {
                 return FlashScreen(pointDAO: snapshot.data!.pointDao);
 
                 // return Text('Data has');
-                
+
               }else if(snapshot.hasError){
 
-                return Text('Error');
+                return const Text('Error');
 
               }else{
 
-                return CircularProgressIndicator();
+                return Center(
+                  child: const Column(
+
+                    children: [
+
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10,),
+                      Text('Loading.........')
+
+                    ],
+                  ),
+                );
               }
             },
           ),

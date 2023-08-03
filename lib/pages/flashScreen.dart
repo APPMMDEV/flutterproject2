@@ -70,7 +70,7 @@ class _FlashScreenState extends State<FlashScreen> {
             onTap: (index) => setState(() => currentIndex = index),
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+                icon: Icon(Icons.home_rounded),
                 label: 'Home',
               ),
               BottomNavigationBarItem(

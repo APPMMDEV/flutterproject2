@@ -52,20 +52,47 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
     super.initState();
   }
 
-  void goReadPage(postData) async{
-
-    var timeStamp = DateTime.now().millisecondsSinceEpoch;
+  void setSuccessPoint() async{
 
     var pointpref = await SharedPreferences.getInstance();
     int i = pointpref.getInt('key') ?? 0;
     pointpref.setInt('key', i + 1);
+
+    int t = pointpref.getInt('total') ?? 0;
+    pointpref.setInt('total', t + 1);
+  }
+
+  void setTotalClickPoint() async{
+
+    var tpf = await SharedPreferences.getInstance();
+    int i = tpf.getInt('total') ?? 0;
+    tpf.setInt('total', i + 1);
+
+
+  }
+
+  void goReadPage(postData,success) async{
+
+
+    if(success){
+     setSuccessPoint();
+
+    }else{
+
+      setTotalClickPoint();
+
+    }
+
+
+
+
 
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) =>
             viewPost(postDatabase: postData)));
   }
 
-  void CheckRewardAds(){
+  Future<void> CheckRewardAds() async {
 
 
 
@@ -73,11 +100,20 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
 
      print('RewReady');
      IronSource.showRewardedVideo();
+     setState(() {
+       _isRewardedVideoAvailable = false;
+     });
    }else{
 
-     print('checkRewardsLoading');
      IronSource.loadRewardedVideo();
+
+     goReadPage(myPostModal, false);
+
+
+
    }
+
+
 
 
     //
@@ -85,28 +121,11 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
     //
     // });
   }
+Future<void> LoadRW() async{
 
-  void showRewardAds(){
-    _isRewardedVideoAvailable
-        ? () async {
-      // checkRVPlacement();
-      if (await IronSource.isRewardedVideoAvailable()) {
-        // for the RV server-to-server callback param
-        // await IronSource.setDynamicUserId('some-dynamic-user-id');
+  IronSource.loadRewardedVideo();
+}
 
-        // for placement capping test
-        // IronSource.showRewardedVideo(placementName: 'CAPPED_PLACEMENT');
-        IronSource.showRewardedVideo();
-
-        // onRewardedVideoAvailabilityChanged(false) won't be called on show
-        // So, the state must be changed manually.
-        setState(() {
-          _isRewardedVideoAvailable = false;
-        });
-      }
-    }
-        : null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +139,7 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
           if (snapshot.hasData) {
 
             return Container(
-              margin: EdgeInsets.only(top: 70),
+              margin: EdgeInsets.only(bottom: 70),
               child: ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
@@ -155,8 +174,8 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
       // size.isAdaptive = true; // Adaptive Banner
       IronSource.loadBanner(
           size: size,
-          position: IronSourceBannerPosition.Top,
-          verticalOffset: 120,);
+          position: IronSourceBannerPosition.Bottom,
+          verticalOffset: -120,);
     }
   }
   Future<void> checkATT() async {
@@ -352,8 +371,8 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
                     myPostModal = postData;
 
 
-
                     CheckRewardAds();
+                    // showRewardAds();
 
 
                   },
@@ -376,11 +395,12 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
                         ),
                         Expanded(
                           child: Column(
+
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(right: 10),
+                                margin: EdgeInsets.only(left: 10),
                                 child: Text(
                                   Convert_Pref.readTimestamp(
                                       int.parse(postData.timeStamp)),
@@ -503,7 +523,8 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
     });
     if (mounted && _placement != null && !_isVideoAdVisible) {
 
-      goReadPage( myPostModal);
+      IronSource.loadRewardedVideo();
+      goReadPage( myPostModal,true);
       setState(() {
         _placement = null;
       });
@@ -544,6 +565,9 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
   void onRewardedVideoAdShowFailed(IronSourceError error) {
     print("onRewardedVideoAdShowFailed Error:$error");
     if (mounted) {
+
+
+      goReadPage( myPostModal,false);
       setState(() {
         _isVideoAdVisible = false;
       });

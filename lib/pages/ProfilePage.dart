@@ -12,6 +12,7 @@ class MyProfile extends StatefulWidget {
 
 class _MyProfileState extends State<MyProfile> {
   var pts = '0 pts';
+  var tclick = 'o click';
 
 
 
@@ -21,6 +22,7 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
 
    getPts();
+   getTotalClick();
     super.initState();
   }
 
@@ -32,9 +34,10 @@ class _MyProfileState extends State<MyProfile> {
           children: [
             Container(
               child: Column(
+
                 children: [
                   Container(
-                    margin: EdgeInsets.all(20),
+                    margin: EdgeInsets.only(top: 70,bottom: 30),
                     child: const Center(
                       child: CircleAvatar(
                         backgroundColor: Colors.blueGrey,
@@ -60,7 +63,7 @@ class _MyProfileState extends State<MyProfile> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       padding: EdgeInsets.all(20),
-                      height: 110,
+                      height: 170,
                       child: Card(
                         elevation: 5,
                         // color: Colors.blueGrey,
@@ -69,32 +72,66 @@ class _MyProfileState extends State<MyProfile> {
 
                             borderRadius: BorderRadius.circular(30)),
 
-                        child: Center(
-                          child: Container(
-                              margin: EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Center(
-                                    child: Text(
-                                      'My Points',
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                        color: Theme.of(context).colorScheme.onPrimary,
+                        child: Column(
+
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Container(
+                                  margin: EdgeInsets.all(20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'My Points',
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onPrimary,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      '${pts} points',
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      Center(
+                                        child: Text(
+                                          '${pts} points',
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onPrimary,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              )),
+                                    ],
+                                  )),
+                            ),
+                            Center(
+                              child: Container(
+                                  margin: EdgeInsets.all(20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'Total Click',
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onPrimary,
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          '${tclick} click',
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.onPrimary,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -106,71 +143,28 @@ class _MyProfileState extends State<MyProfile> {
         ],
         )),
 
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: (){
-      //
-      //     showDialog(context: context, builder: (context){
-      //
-      //       return   AlertDialog(
-      //
-      //         title: Text('Are you sure?'),
-      //         content: Text('Delete Data'),
-      //         actions: [
-      //           ElevatedButton(onPressed: (){
-      //
-      //             if(ptls!=null){
-      //
-      //
-      //
-      //               setState(() {
-      //                 widget.pointDAO.DeleteAll(ptls!);
-      //
-      //               });
-      //             }else {
-      //
-      //                showDialog(context: context, builder: (context){
-      //
-      //                 return AlertDialog(
-      //
-      //                    title: Text('Data Null'),
-      //                    content: Text('Delete Data Null'),
-      //                    actions: [
-      //                      ElevatedButton(onPressed: (){
-      //
-      //
-      //
-      //
-      //
-      //                      }, child:
-      //                      Text('OK'))
-      //                    ],
-      //
-      //                  );
-      //                });
-      //
-      //             }
-      //
-      //           }, child:
-      //           Text('OK'))
-      //         ],
-      //
-      //       );
-      //     });
-      //
-      //
-      //   },
-      // ),
+
     );
   }
 
   void getPts() async{
 
     var pointpref = await SharedPreferences.getInstance();
-      int i = pointpref.getInt('key') ?? 0;
+    int i = pointpref.getInt('key') ?? 0;
 
-      setState(() {
-        pts = i.toString();
-      });
+    setState(() {
+      pts = i.toString();
+    });
+  }
+
+  void getTotalClick() async{
+
+    var totalpointPref = await SharedPreferences.getInstance();
+    int j = totalpointPref.getInt('total') ?? 0;
+
+    setState(() {
+      tclick = j.toString();
+    });
   }
 
 }

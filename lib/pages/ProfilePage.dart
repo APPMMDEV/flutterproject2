@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:nwayooknowledge/Database/pointDAO.dart';
-import 'package:nwayooknowledge/Database/pointDatabase.dart';
-import 'package:nwayooknowledge/Helper/Components.dart';
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
 import 'package:nwayooknowledge/Helper/ConvertPref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Database/pointTable.dart';
-
 class MyProfile extends StatefulWidget {
-  final PointDAO pointDAO;
-  const MyProfile({super.key, required this.pointDAO});
+  const MyProfile({super.key});
 
   @override
   State<MyProfile> createState() => _MyProfileState();
@@ -20,7 +13,6 @@ class MyProfile extends StatefulWidget {
 class _MyProfileState extends State<MyProfile> {
   var pts = '0 pts';
 
-  List<PointData>? ptls = [] ;
 
 
 
@@ -111,55 +103,6 @@ class _MyProfileState extends State<MyProfile> {
               ),
             ),
 
-      Container(
-        height: 300,
-        child: StreamBuilder<List<PointData>>(
-          stream: widget.pointDAO.getAllPoints(),
-          builder: (_, snapshot) {
-            if (snapshot.hasData) {
-
-              ptls = snapshot.data;
-
-
-              // return
-              return ListView.builder(
-
-
-
-                // reverse:  true,
-
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-
-                    var rev = snapshot.data!.length -1 - index;
-                    return Card(
-                      elevation: 3,
-                      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-
-
-                      shape: RoundedRectangleBorder(
-
-                          borderRadius: BorderRadius.circular(10)),
-                      child: ListTile(
-
-                        title: Text(Convert_Pref.readTimestamp(snapshot.data![rev].timeStamp as int)),
-                        trailing: Text(snapshot.data![rev].point.toString()),
-
-                      ),
-                    );
-
-                    // return Text('${snapshot.data![index].toString()} time');
-                  });
-            } else if (snapshot.hasError) {
-              return Text('Error Getting Data');
-            } else {
-              return CircularProgressIndicator(
-                color: Colors.redAccent,
-              );
-            }
-          },
-        ),
-      )
         ],
         )),
 
@@ -230,54 +173,4 @@ class _MyProfileState extends State<MyProfile> {
       });
   }
 
-  Widget PointList() {
-    return StreamBuilder<List<PointData>>(
-      stream: widget.pointDAO.getAllPoints(),
-      builder: (_, snapshot) {
-        if (snapshot.hasData) {
-
-          ptls = snapshot.data;
-
-
-          // return
-          return Expanded(
-            child: ListView.builder(
-
-
-
-              // reverse:  true,
-
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-
-                  var rev = snapshot.data!.length -1 - index;
-                  return Card(
-                    elevation: 3,
-                    margin: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-
-
-                    shape: RoundedRectangleBorder(
-
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
-
-                      title: Text(Convert_Pref.readTimestamp(snapshot.data![rev].timeStamp as int)),
-                      trailing: Text(snapshot.data![rev].point.toString()),
-
-                    ),
-                  );
-
-                  // return Text('${snapshot.data![index].toString()} time');
-                }),
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error Getting Data');
-        } else {
-          return CircularProgressIndicator(
-            color: Colors.redAccent,
-          );
-        }
-      },
-    );
-  }
 }

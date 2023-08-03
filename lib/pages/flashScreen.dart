@@ -1,12 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:ironsource_mediation/ironsource_mediation.dart';
-import 'package:nwayooknowledge/Database/pointDAO.dart';
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
 import 'package:nwayooknowledge/pages/postPage.dart';
-import 'package:nwayooknowledge/pages/pts_test.dart';
 
 import '../theme/dark_theme.dart';
 import '../theme/light_theme.dart';
@@ -14,8 +10,7 @@ import 'ProfilePage.dart';
 
 class FlashScreen extends StatefulWidget {
 
-  final PointDAO pointDAO;
-  const FlashScreen({super.key,required this.pointDAO});
+  const FlashScreen({super.key});
 
   @override
   State<FlashScreen> createState() => _FlashScreenState();
@@ -87,7 +82,7 @@ class _FlashScreenState extends State<FlashScreen> {
   }
 
   Widget getScreen(){
-  var screens = [MyPostPage(pointDAO: widget.pointDAO,),MyProfile(pointDAO: widget.pointDAO)];
+  var screens = [MyPostPage(),MyProfile()];
     return Container(
 
       child: screens[currentIndex],

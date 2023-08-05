@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ironsource_mediation/ironsource_mediation.dart';
-import 'package:nwayooknowledge/Helper/BannerAdsHelper.dart';
+
 import 'package:nwayooknowledge/Modal/postmodal.dart';
 import 'package:nwayooknowledge/pages/readPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Api/Api.dart';
-import '../Helper/Components.dart';
+
 import '../Helper/ConstsData.dart';
 import '../Helper/ConvertPref.dart';
 import '../utils.dart';
@@ -22,24 +22,35 @@ class MyPostPage extends StatefulWidget {
   State<MyPostPage> createState() => _MyPostPageState();
 }
 
-class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener ,IronSourceImpressionDataListener, IronSourceInitializationListener ,IronSourceRewardedVideoManualListener {
+class _MyPostPageState extends State<MyPostPage>  with  IronSourceInitializationListener ,IronSourceRewardedVideoManualListener {
 
   late MyPostModal myPostModal;
   bool _isRewardedVideoAvailable = false;
   bool _isVideoAdVisible = false;
   IronSourceRewardedVideoPlacement? _placement;
+
   @override
   void initState() {
 
 
+    print('startPage');
+
+    print('startPage2 ${_isRewardedVideoAvailable}');
+
     WidgetsBinding.instance.addPostFrameCallback((_)
     {
       initIronSource().then((value){
-        IronSource.setBannerListener(this);
 
+
+        print('startPage3');
+        print(_isRewardedVideoAvailable);
         IronSource.setManualLoadRewardedVideo(this);
 
-        IronSource.loadRewardedVideo();
+        if(!_isRewardedVideoAvailable){
+
+          print('startPage4 ${_isRewardedVideoAvailable}');
+          IronSource.loadRewardedVideo();
+        }
 
         bannerLoad();
       }
@@ -107,6 +118,8 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
 
      IronSource.loadRewardedVideo();
 
+     print('Error Reward');
+
      goReadPage(myPostModal, false);
 
 
@@ -114,12 +127,6 @@ class _MyPostPageState extends State<MyPostPage>  with IronSourceBannerListener 
    }
 
 
-
-
-    //
-    // setState(() {
-    //
-    // });
   }
 Future<void> LoadRW() async{
 
@@ -139,14 +146,14 @@ Future<void> LoadRW() async{
           if (snapshot.hasData) {
 
             return Container(
-              margin: EdgeInsets.only(bottom: 70),
+              margin: const EdgeInsets.only(bottom: 70),
               child: ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return getPostCardContainer(
                         context, snapshot.data![index]);
 
-                        
+
                   }),
             );
           } else {
@@ -234,22 +241,12 @@ Future<void> LoadRW() async{
         ? "8545d445"
         : throw Exception("Unsupported Platform");
     try {
-      IronSource.setFlutterVersion('3.3.0'); // fetch automatically
-      IronSource.setImpressionDataListener(this);
+      IronSource.setFlutterVersion('3.3.0'); // fetc
+
       await enableDebug();
       await IronSource.shouldTrackNetworkState(true);
 
-      // GDPR, CCPA, COPPA etc
       await setRegulationParams();
-
-      // Segment info
-      // await setSegment();
-
-      // For Offerwall
-      // Must be called before init
-      // await IronSource.setClientSideCallbacks(true);
-
-      // GAID, IDFA, IDFV
       String id = await IronSource.getAdvertiserId();
       print('AdvertiserID: $id');
 
@@ -266,48 +263,12 @@ Future<void> LoadRW() async{
           appKey: appKey,
           adUnits: [
             IronSourceAdUnit.RewardedVideo,
-            IronSourceAdUnit.Interstitial,
             IronSourceAdUnit.Banner,
-            IronSourceAdUnit.Offerwall
           ],
           initListener: this);
     } on PlatformException catch (e) {
       print(e);
     }
-  }
-  @override
-  void onBannerAdClicked() {
-    // TODO: implement onBannerAdClicked
-  }
-
-  @override
-  void onBannerAdLeftApplication() {
-    // TODO: implement onBannerAdLeftApplication
-  }
-
-  @override
-  void onBannerAdLoadFailed(IronSourceError error) {
-    // TODO: implement onBannerAdLoadFailed
-  }
-
-  @override
-  void onBannerAdLoaded() {
-    // TODO: implement onBannerAdLoaded
-  }
-
-  @override
-  void onBannerAdScreenDismissed() {
-    // TODO: implement onBannerAdScreenDismissed
-  }
-
-  @override
-  void onBannerAdScreenPresented() {
-    // TODO: implement onBannerAdScreenPresented
-  }
-
-  @override
-  void onImpressionSuccess(IronSourceImpressionData? impressionData) {
-    // TODO: implement onImpressionSuccess
   }
 
   @override
@@ -353,12 +314,12 @@ Future<void> LoadRW() async{
 
    Widget getPostCardContainer(context, postData,) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 5),
+        margin: const EdgeInsets.symmetric(vertical: 5),
         child: Center(
           child: Container(
             height: 170,
             child: Card(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               // color: Theme.of(context).colorScheme.onBackground,
               elevation: 5,
               // shadowColor: Theme.of(context).colorScheme.secondary,
@@ -400,7 +361,7 @@ Future<void> LoadRW() async{
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(left: 10),
+                                margin: const EdgeInsets.only(left: 10),
                                 child: Text(
                                   Convert_Pref.readTimestamp(
                                       int.parse(postData.timeStamp)),
@@ -414,7 +375,7 @@ Future<void> LoadRW() async{
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.all(5),
+                                margin: const EdgeInsets.all(5),
 
 
                                 child: Row(
@@ -443,11 +404,11 @@ Future<void> LoadRW() async{
                                       MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
 
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 0),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius: const BorderRadius.all(
                                                 Radius.circular(5)),
                                             color: Colors.blueGrey,
 
@@ -458,13 +419,13 @@ Future<void> LoadRW() async{
                                                 fontSize: 10, color: Colors.white),
                                           ),
                                         ),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
                                         Container(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
                                           // color: Colors.blue,
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 0),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius: const BorderRadius.all(
                                                 Radius.circular(5)),
                                             color: Colors.blueGrey,
                                           ),

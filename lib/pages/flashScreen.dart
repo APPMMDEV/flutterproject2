@@ -40,7 +40,7 @@ class _FlashScreenState extends State<FlashScreen> {
             elevation: 0,
             actions: [
               Container(
-                margin: EdgeInsets.only(right: 20),
+                margin: const EdgeInsets.only(right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -82,7 +82,7 @@ class _FlashScreenState extends State<FlashScreen> {
   }
 
   Widget getScreen(){
-  var screens = [MyPostPage(),MyProfile()];
+  var screens = [const MyPostPage(),const MyProfile()];
     return Container(
 
       child: screens[currentIndex],

@@ -117,9 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
                   label: 'Profile',
-                ),  BottomNavigationBarItem(
-                  icon: Icon(Icons.share),
-                  label: 'Test',
                 ),
               ],
             )
@@ -159,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //
   //
   Widget getScreen() {
-    var screens = [ const MyPostPage2(), const MyProfile(),  MyTestPage()];
+    var screens = [ const MyPostPage2(), const MyProfile()];
     return screens[_currentIndex];
   }
 }

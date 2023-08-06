@@ -46,12 +46,12 @@ class Components{
 
   static Widget getPostCardContainer(context, postData) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 5),
+        margin: const EdgeInsets.symmetric(vertical: 5),
         child: Center(
-          child: Container(
+          child: SizedBox(
             height: 170,
             child: Card(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               // color: Theme.of(context).colorScheme.onBackground,
               elevation: 5,
               // shadowColor: Theme.of(context).colorScheme.secondary,
@@ -94,7 +94,7 @@ class Components{
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-                                margin: EdgeInsets.only(right: 10),
+                                margin: const EdgeInsets.only(right: 10),
                                 child: Text(
                                   Convert_Pref.readTimestamp(
                                       int.parse(postData.timeStamp)),
@@ -108,7 +108,7 @@ class Components{
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.all(5),
+                                margin: const EdgeInsets.all(5),
 
 
                                 child: Row(
@@ -137,11 +137,11 @@ class Components{
                                       MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
 
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 0),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius: const BorderRadius.all(
                                                 Radius.circular(5)),
                                             color: Colors.blueGrey,
 
@@ -152,13 +152,13 @@ class Components{
                                                 fontSize: 10, color: Colors.white),
                                           ),
                                         ),
-                                        SizedBox(height: 5,),
+                                        const SizedBox(height: 5,),
                                         Container(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
                                           // color: Colors.blue,
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 0),
-                                            borderRadius: BorderRadius.all(
+                                            borderRadius: const BorderRadius.all(
                                                 Radius.circular(5)),
                                             color: Colors.blueGrey,
                                           ),
@@ -212,5 +212,103 @@ class Components{
       minutes,
       seconds,
     ].join(':');
+  }
+
+  static Widget getPointCard (context , point, click){
+    return  Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+
+          child: Card(
+            elevation: 10,
+
+            // color: Colors.blueGrey,
+
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)),
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceAround,
+                        children: [
+                          Center(
+                            child: Text(
+                              'My Points',
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary,
+                                  fontSize: 10),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              // '${snapshot.data}',
+                              point,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary,
+                                  fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+
+                Container(
+                  width: 1,
+                  height: 40,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                // Container(width: 1,height: 20,color: Colors.black,),
+                Center(
+                  child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      child: Column(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceAround,
+                        children: [
+                          Center(
+                            child: Text(
+                              'Total Click',
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary,
+                                  fontSize: 10),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              click,
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary,
+                                  fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+              ],
+            ),
+          )
+      ),
+    );
   }
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ironsource_mediation/ironsource_mediation.dart';
+import 'package:nwayooknowledge/Helper/Components.dart';
+import 'package:nwayooknowledge/Helper/MethodsHelper.dart';
 
 import 'package:nwayooknowledge/Modal/postmodal.dart';
 import 'package:nwayooknowledge/pages/readPost.dart';
@@ -14,20 +16,23 @@ import '../Helper/ConstsData.dart';
 import '../Helper/ConvertPref.dart';
 import '../utils.dart';
 const _APP_USER_ID = 'some-unique-app-user-id-123';
-class MyPostPage extends StatefulWidget {
+class MyPostPage2 extends StatefulWidget {
 
-  const MyPostPage({super.key});
+  const MyPostPage2({super.key});
 
   @override
-  State<MyPostPage> createState() => _MyPostPageState();
+  State<MyPostPage2> createState() => _MyPostPage2State();
 }
 
-class _MyPostPageState extends State<MyPostPage>  with  IronSourceInitializationListener ,IronSourceRewardedVideoManualListener {
+class _MyPostPage2State extends State<MyPostPage2>  with  IronSourceInitializationListener ,IronSourceRewardedVideoManualListener {
 
   late MyPostModal myPostModal;
   bool _isRewardedVideoAvailable = false;
   bool _isVideoAdVisible = false;
   IronSourceRewardedVideoPlacement? _placement;
+
+  var point = 'O pts';
+  var click = '0 clik';
 
   @override
   void initState() {
@@ -53,40 +58,45 @@ class _MyPostPageState extends State<MyPostPage>  with  IronSourceInitialization
       );
     });
 
+      getPtsFromSharePref();
+      getTotalClick();
+
+
+
 
 
 
     super.initState();
   }
 
-  void setSuccessPoint() async{
 
+  void getPtsFromSharePref() async {
     var pointpref = await SharedPreferences.getInstance();
     int i = pointpref.getInt('key') ?? 0;
-    pointpref.setInt('key', i + 1);
 
-    int t = pointpref.getInt('total') ?? 0;
-    pointpref.setInt('total', t + 1);
+    setState(() {
+      point = i.toString();
+    });
   }
 
-  void setTotalClickPoint() async{
+  void getTotalClick() async {
+    var totalpointPref = await SharedPreferences.getInstance();
+    int j = totalpointPref.getInt('total') ?? 0;
 
-    var tpf = await SharedPreferences.getInstance();
-    int i = tpf.getInt('total') ?? 0;
-    tpf.setInt('total', i + 1);
-
-
+    setState(() {
+      click = j.toString();
+    });
   }
 
   void goReadPage(postData,success) async{
 
 
     if(success){
-     setSuccessPoint();
+     MethodsHelper.setSuccessPoint();
 
     }else{
 
-      setTotalClickPoint();
+      MethodsHelper.setTotalClickPoint();
 
     }
 
@@ -134,32 +144,44 @@ Future<void> LoadRW() async{
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primary,
-      child: FutureBuilder(
+      child: Column(
 
 
-        future: Api.getMyPost(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
+        children: [
 
-            return Container(
-              margin: const EdgeInsets.only(bottom: 70),
-              child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return getPostCardContainer(
-                        context, snapshot.data![index]);
+          Container(
+            height: 100,
+              child: Components.getPointCard(context, point, click)),
+          Expanded(
+            child: FutureBuilder(
 
 
-                  }),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-            );
-          }
-        },
+              future: Api.getMyPost(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 70),
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return getPostCardContainer(
+                              context, snapshot.data![index]);
+
+
+                        }),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

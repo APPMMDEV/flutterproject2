@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nwayooknowledge/pages/flashScreen.dart';
+import 'package:nwayooknowledge/pages/mainPage.dart';
+
+import 'pages/flashScreen2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,12 +29,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
 
       debugShowCheckedModeBanner: false,
       home: Scaffold(
 
-        body: FlashScreen()
+        body: MainPage()
       ),
 
     );

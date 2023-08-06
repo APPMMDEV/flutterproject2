@@ -71,7 +71,9 @@ class _FlashScreenState extends State<FlashScreen> {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_rounded),
+
                 label: 'Home',
+
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
 import 'package:nwayooknowledge/Helper/ConvertPref.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,14 +17,39 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   void initState() {
-    getPts();
-    getTotalClick();
+
+    getPtsFromSharePref();
+    getClickfromSharepref();
     super.initState();
+  }
+
+  Stream<int> getPoint() async*{
+
+
+    int points = await getPts();
+    yield points;
+
+
+  }
+  Future<int> getPts() async {
+    var pointpref = await SharedPreferences.getInstance();
+    int i = pointpref.getInt('key') ?? 0;
+    return i;
+
+  }
+
+  Future<int> getClickfromSharepref() async {
+    var pointpref = await SharedPreferences.getInstance();
+    int i = pointpref.getInt('total') ?? 0;
+    return i;
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+
       body: SingleChildScrollView(
           child: Column(
         children: [
@@ -53,11 +79,12 @@ class _MyProfileState extends State<MyProfile> {
                   child: Container(
                     height: 100,
                     child: Card(
-                      elevation: 5,
+                      elevation: 10,
+                      color: Colors.blueAccent,
                       // color: Colors.blueGrey,
 
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
+                          borderRadius: BorderRadius.circular(10)),
 
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -69,7 +96,7 @@ class _MyProfileState extends State<MyProfile> {
                                     horizontal: 20, vertical: 5),
                                 child: Column(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     Center(
                                       child: Text(
@@ -84,7 +111,8 @@ class _MyProfileState extends State<MyProfile> {
                                     ),
                                     Center(
                                       child: Text(
-                                        '${pts}',
+                                        // '${snapshot.data}',
+                                        pts,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             color: Theme.of(context)
@@ -109,7 +137,7 @@ class _MyProfileState extends State<MyProfile> {
                                     horizontal: 20, vertical: 5),
                                 child: Column(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  MainAxisAlignment.spaceAround,
                                   children: [
                                     Center(
                                       child: Text(
@@ -124,7 +152,7 @@ class _MyProfileState extends State<MyProfile> {
                                     ),
                                     Center(
                                       child: Text(
-                                        '${tclick}',
+                                      tclick,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             color: Theme.of(context)
@@ -138,7 +166,7 @@ class _MyProfileState extends State<MyProfile> {
                           ),
                         ],
                       ),
-                    ),
+                    )
                   ),
                 ),
               ],
@@ -149,7 +177,7 @@ class _MyProfileState extends State<MyProfile> {
     );
   }
 
-  void getPts() async {
+  void getPtsFromSharePref() async {
     var pointpref = await SharedPreferences.getInstance();
     int i = pointpref.getInt('key') ?? 0;
 

@@ -66,9 +66,18 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            CircleAvatar(
+              backgroundColor: Colors.transparent,
+              radius: 85,
+              child: CircleAvatar(
+                  radius: 79,
+                  backgroundImage:
+                  AssetImage('assets/images/logo.png')),
+            ),
+            SizedBox(height: 20,),
             CircularProgressIndicator(),
             SizedBox(height: 16), // Add some spacing between the CircularProgressIndicator and the Text
-            Text('Loading'),
+            Text('Loading ....'),
           ],
         ),
 
@@ -76,7 +85,18 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
-
+  // AnimatedOpacity(
+  // opacity: _opacityAnimation.value,
+  // duration: Duration(milliseconds: 500),
+  // child: CircularProgressIndicator(),
+  // ),
+  // SizedBox(height: 10),
+  // // Wrap the Text widget with the AnimatedOpacity widget
+  // AnimatedOpacity(
+  // opacity: _opacityAnimation.value,
+  // duration: Duration(milliseconds: 500),
+  // child: Text('Loading'),
+  // ),
 
 }
 

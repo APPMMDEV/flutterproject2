@@ -62,7 +62,6 @@ getTotalClick();
                     height: 100,
                     child: Card(
                       elevation: 10,
-                      color: Colors.blueAccent,
                       // color: Colors.blueGrey,
 
                       shape: RoundedRectangleBorder(

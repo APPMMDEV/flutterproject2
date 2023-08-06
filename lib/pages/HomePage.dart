@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                             });
                           }),
-                      const Icon(CupertinoIcons.moon_stars)
+                      const Icon(CupertinoIcons.moon_stars_fill)
                     ],
                   ),
                 )

@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Api/Api.dart';
 
-import '../Helper/ConstsData.dart';
 import '../Helper/ConvertPref.dart';
 import '../utils.dart';
 const _APP_USER_ID = 'some-unique-app-user-id-123';

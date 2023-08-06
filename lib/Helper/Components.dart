@@ -1,7 +1,8 @@
-import 'dart:math';
+
 
 import 'package:flutter/material.dart';
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
+import 'package:nwayooknowledge/Helper/MethodsHelper.dart';
 import 'package:nwayooknowledge/pages/readPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -310,5 +311,73 @@ class Components{
           )
       ),
     );
+  }
+  
+  static Widget getStremWatch (){
+    
+    return StreamBuilder<int>(
+      stream: getStreamInt(),
+      builder: (context,snapshot){
+
+        if(snapshot.hasData){
+
+          return   Center(
+            child: Container(
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 5),
+                child: Column(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceAround,
+                  children: [
+                    Center(
+                      child: Text(
+                        'My Points',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimary,
+                            fontSize: 10),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        // '${snapshot.data}',
+                        snapshot.data.toString(),
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimary,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ],
+                )),
+          );
+        }else{
+
+          return Text('data Error');
+        }
+
+      },
+
+    );
+  }
+
+  static Stream<int> getStreamInt()async* {
+
+    var pts = await MethodsHelper.getPtsFromSharePref();
+
+    yield pts;
+
+  }
+
+  static Stream<int> getClickStreamInt()async* {
+
+    var click = await MethodsHelper.getTotalClick();
+
+    yield click;
+
   }
 }

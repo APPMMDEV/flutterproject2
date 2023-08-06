@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nwayooknowledge/Helper/Components.dart';
 import 'package:nwayooknowledge/pages/postPage2.dart';
 
 import '../Helper/ConstsData.dart';
@@ -52,7 +53,9 @@ class _MainPageState extends State<MainPage> {
               )
             ],
           ),
-    body: MyPostPage2(),
+    // body: MyPostPage2(),
+
+          body: Components.getStremWatch(),
 
     )
     );

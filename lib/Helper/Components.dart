@@ -1,14 +1,20 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:ironsource_mediation/ironsource_mediation.dart';
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
 import 'package:nwayooknowledge/Helper/MethodsHelper.dart';
+import 'package:nwayooknowledge/Modal/postmodal.dart';
 import 'package:nwayooknowledge/pages/readPost.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ConvertPref.dart';
 
-class Components{
+class Components {
+
+
+
+ static MyPostModal? myPostModal;
   String? finalimage;
 
   static Widget getimg(img) {
@@ -46,6 +52,9 @@ class Components{
   }
 
   static Widget getPostCardContainer(context, postData) {
+
+    myPostModal = postData;
+
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
         child: Center(
@@ -62,15 +71,9 @@ class Components{
                 child: InkWell(
                   onTap: () async {
 
-                    var timeStamp = DateTime.now().millisecondsSinceEpoch;
+                 _showRewardedAd();
 
-                    var pointpref = await SharedPreferences.getInstance();
-                    int i = pointpref.getInt('key') ?? 0;
-                    pointpref.setInt('key', i + 1);
 
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            viewPost(postDatabase: postData)));
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -202,6 +205,16 @@ class Components{
         ));
   }
 
+
+  static void _showRewardedAd() async {
+    bool isAvailable = await IronSource.isRewardedVideoAvailable();
+
+    if (isAvailable) {
+      IronSource.showRewardedVideo(placementName: "YOUR_PLACEMENT_NAME");
+    } else {
+      print("Rewarded ad is not available at the moment.");
+    }
+  }
   static String formatTime(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
 
@@ -215,7 +228,41 @@ class Components{
     ].join(':');
   }
 
-  static Widget getPointCard (context , point, click){
+  static Widget getPointCard (context){
+    return  Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+
+          child: Card(
+            elevation: 10,
+
+            // color: Colors.blueGrey,
+
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)),
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+               getPointStreamWatch(),
+
+                Container(
+                  width: 1,
+                  height: 40,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                // Container(width: 1,height: 20,color: Colors.black,),
+               getClickStreamWatch()
+              ],
+            ),
+          )
+      ),
+    );
+  }
+
+
+  static Widget old_getPointCard (context , point, click){
     return  Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -312,11 +359,63 @@ class Components{
       ),
     );
   }
-  
-  static Widget getStremWatch (){
-    
+
+  static Widget getClickStreamWatch (){
+
     return StreamBuilder<int>(
-      stream: getStreamInt(),
+      stream: getClickStreamInt(),
+      builder: (context,snapshot){
+
+        if(snapshot.hasData){
+
+          return   Center(
+            child: Container(
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 5),
+                child: Column(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceAround,
+                  children: [
+                    Center(
+                      child: Text(
+                        'My Click',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimary,
+                            fontSize: 10),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        // '${snapshot.data}',
+                        snapshot.data.toString(),
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimary,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ],
+                )),
+          );
+        }else{
+
+          return Text('data Error');
+        }
+
+      },
+
+    );
+  }
+
+  static Widget getPointStreamWatch (){
+
+    return StreamBuilder<int>(
+      stream: getPointStreamInt(),
       builder: (context,snapshot){
 
         if(snapshot.hasData){
@@ -365,7 +464,7 @@ class Components{
     );
   }
 
-  static Stream<int> getStreamInt()async* {
+  static Stream<int> getPointStreamInt()async* {
 
     var pts = await MethodsHelper.getPtsFromSharePref();
 
@@ -375,9 +474,13 @@ class Components{
 
   static Stream<int> getClickStreamInt()async* {
 
-    var click = await MethodsHelper.getTotalClick();
+    while(true){
+      var click = await MethodsHelper.getTotalClickfromSharePref();
 
-    yield click;
+      yield click;
+    }
+
 
   }
+
 }

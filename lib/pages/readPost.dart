@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nwayooknowledge/Modal/postmodal.dart';
 
 import '../Helper/ConvertPref.dart';
+import '../Helper/MethodsHelper.dart';
 
 class viewPost extends StatefulWidget {
   final MyPostModal postDatabase;
-  const viewPost({super.key, required this.postDatabase});
+  final bool AdsSuccess;
+  const viewPost({super.key, required this.postDatabase,required this.AdsSuccess});
 
   @override
   State<viewPost> createState() => _viewPostState();
@@ -25,8 +27,18 @@ class _viewPostState extends State<viewPost> {
 
 
     checklanguage();
+    addPoint();
 
     super.initState();
+  }
+
+  void addPoint(){
+
+    if (widget.AdsSuccess) {
+      MethodsHelper.setSuccessPoint();
+    } else {
+      MethodsHelper.setTotalClickPoint();
+    }
   }
 
   void checklanguage(){

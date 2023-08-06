@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:nwayooknowledge/Helper/ConstsData.dart';
 import 'package:nwayooknowledge/Helper/ConvertPref.dart';
+import 'package:nwayooknowledge/Helper/MethodsHelper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProfile extends StatefulWidget {
@@ -12,38 +13,19 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-  var pts = '0 pts';
-  var tclick = 'o click';
+  var pts = '0';
+  var tclick = '0';
 
   @override
-  void initState() {
+  void initState()  {
 
-    getPtsFromSharePref();
-    getClickfromSharepref();
+
+getPtsFromSharePref();
+getTotalClick();
+
     super.initState();
   }
 
-  Stream<int> getPoint() async*{
-
-
-    int points = await getPts();
-    yield points;
-
-
-  }
-  Future<int> getPts() async {
-    var pointpref = await SharedPreferences.getInstance();
-    int i = pointpref.getInt('key') ?? 0;
-    return i;
-
-  }
-
-  Future<int> getClickfromSharepref() async {
-    var pointpref = await SharedPreferences.getInstance();
-    int i = pointpref.getInt('total') ?? 0;
-    return i;
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +39,7 @@ class _MyProfileState extends State<MyProfile> {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 50, bottom: 30),
+                  margin: const EdgeInsets.only(top: 50, bottom: 30),
                   child: const Center(
                     child: CircleAvatar(
                       backgroundColor: Colors.blueGrey,
@@ -92,7 +74,7 @@ class _MyProfileState extends State<MyProfile> {
                         children: [
                           Center(
                             child: Container(
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: Column(
                                   mainAxisAlignment:
@@ -133,7 +115,7 @@ class _MyProfileState extends State<MyProfile> {
                           // Container(width: 1,height: 20,color: Colors.black,),
                           Center(
                             child: Container(
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: Column(
                                   mainAxisAlignment:

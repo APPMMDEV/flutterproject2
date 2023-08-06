@@ -40,7 +40,18 @@ class MyPostModal{
 
     );
   }
-
+    Map<String, dynamic> toJson() {
+        return {
+            "mmtitle": mmtitle,
+            "engtitle": engtitle,
+            "author": author,
+            "source": source,
+            "timeStamp": timeStamp,
+            "mmcontent": mmcontent,
+            "engcontent": engcontent,
+            "image": image,
+        };
+    }
 
 
 }

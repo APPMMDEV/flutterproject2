@@ -13,35 +13,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Api/Api.dart';
 
 import '../Helper/ConvertPref.dart';
-import '../Helper/SharePerfHelper.dart';
 import '../utils.dart';
 
 
-class MyPostPage2 extends StatefulWidget {
-  const MyPostPage2({super.key});
+class BackupPostPage extends StatefulWidget {
+  const BackupPostPage({super.key});
 
   @override
-  State<MyPostPage2> createState() => _MyPostPage2State();
+  State<BackupPostPage> createState() => _BackupPostPageState();
 }
 
-class _MyPostPage2State extends State<MyPostPage2> with IronSourceRewardedVideoListener{
+class _BackupPostPageState extends State<BackupPostPage> with IronSourceRewardedVideoListener{
 
   late MyPostModal currentPostModal;
-  List<MyPostModal> myModelList = [];
-
   @override
   void initState() {
 
     IronSource.setRewardedVideoListener(this);
-    _loadData();
     super.initState();
   }
-  void _loadData() async {
-    List<MyPostModal> data = await MySharedPreferences.getMyModelList();
-    setState(() {
-      myModelList = data;
-    });
-  }
+
   void goReadPage(postData, success) async {
 
 
@@ -54,14 +45,30 @@ class _MyPostPage2State extends State<MyPostPage2> with IronSourceRewardedVideoL
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primary,
-      child: ListView.builder(
-          itemCount: myModelList.length,
-          itemBuilder: (context, index) {
-
-            currentPostModal = myModelList![index];
-            return getPostCardContainer(
-                context,myModelList![index]);
-          }),
+      child: FutureBuilder(
+        future: Api.getMyPost(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 70),
+              child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    
+                    currentPostModal = snapshot.data![index];
+                    return getPostCardContainer(
+                        context, snapshot.data![index]);
+                  }),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 

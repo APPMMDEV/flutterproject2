@@ -6,9 +6,9 @@ class MethodsHelper{
 
     var pointpref = await SharedPreferences.getInstance();
     int i = pointpref.getInt('key') ?? 0;
-    pointpref.setInt('key', i + 1);
 
     int t = pointpref.getInt('total') ?? 0;
+    pointpref.setInt('key', i + 1);
     pointpref.setInt('total', t + 1);
   }
 
@@ -29,7 +29,7 @@ class MethodsHelper{
    return i;
  }
 
- static Future<int> getTotalClick() async {
+ static Future<int> getTotalClickfromSharePref() async {
    var totalpointPref = await SharedPreferences.getInstance();
    int j = totalpointPref.getInt('total') ?? 0;
 
